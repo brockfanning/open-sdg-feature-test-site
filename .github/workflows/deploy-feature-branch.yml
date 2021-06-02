@@ -18,12 +18,14 @@ jobs:
           ruby-version: 2.6.x
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
-      - name: Replace the baseurl with this branch
-        uses: jacobtomlinson/gha-find-replace@master
+      - name: Update the baseurl
+        uses: fjogeleit/yaml-update-action@master
         with:
-          find: 'baseurl: "/${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }}"'
-          replace: 'baseurl: "/${{ env.GITHUB_REF_SLUG }}"'
-          include: _config.yml
+          valueFile: '_config.yml'
+          propertyPath: 'baseurl'
+          value: '/${{ env.GITHUB_REF_SLUG }}'
+          commitChange: 'false'
+          updateFile: 'true'
       - name: Build the site
         run: |
           gem install bundler
