@@ -26,6 +26,14 @@ jobs:
           value: '/${{ env.GITHUB_REF_SLUG }}'
           commitChange: 'false'
           updateFile: 'true'
+      - name: Update the remote_data_prefix
+        uses: fjogeleit/yaml-update-action@master
+        with:
+          valueFile: '_config.yml'
+          propertyPath: 'remote_data_prefix'
+          value: '/${{ env.GITHUB_REF_SLUG }}-data'
+          commitChange: 'false'
+          updateFile: 'true'
       - name: Build the site
         run: |
           gem install bundler
