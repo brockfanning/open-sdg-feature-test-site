@@ -21,6 +21,7 @@ jobs:
       - name: Update the baseurl
         uses: fjogeleit/yaml-update-action@master
         with:
+          # Update this if your 'baseurl' setting is in a different file.
           valueFile: '_config.yml'
           propertyPath: 'baseurl'
           value: '/${{ env.GITHUB_REF_SLUG }}'
@@ -29,9 +30,11 @@ jobs:
       - name: Update the remote_data_prefix
         uses: fjogeleit/yaml-update-action@master
         with:
+          # Update this if your 'remote_data_prefix' setting is in a different file.
           valueFile: '_config.yml'
           propertyPath: 'remote_data_prefix'
-          value: '/${{ env.GITHUB_REF_SLUG }}-data'
+          # Update this according to the public URL of your S3 bucket.
+          value: 'http://open-sdg-feature.s3-website-us-east-1.amazonaws.com/${{ env.GITHUB_REF_SLUG }}-data'
           commitChange: 'false'
           updateFile: 'true'
       - name: Build the site
@@ -44,8 +47,11 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
+          # Update this according to the name of your S3 bucket.
           AWS_S3_BUCKET: open-sdg-feature
+          # Don't forget to set the following as a "repository secret".
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS }}
+          # Don't forget to set the following as a "repository secret".
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET }}
           SOURCE_DIR: _site
           DEST_DIR: ${{ env.GITHUB_REF_SLUG }}
