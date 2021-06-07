@@ -14,7 +14,10 @@ jobs:
         with:
           args: --recursive
         env:
+          # Update this according to the name of your S3 bucket.
           AWS_S3_BUCKET: open-sdg-feature
+          # Don't forget to set AWS_ACCESS as a "repository secret".
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS }}
+          # Don't forget to set AWS_SECRET as a "repository secret".
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET }}
           PATH_TO_DELETE: ${{ env.GITHUB_EVENT_REF_SLUG }}
